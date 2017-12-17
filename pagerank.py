@@ -1,26 +1,36 @@
 ##Standard PageRank implementation
 ##Requires a square matrix
 import numpy as np
+import scipy as sc
+import pandas as pd
+from fractions import Fraction
+# keep it clean and tidy
+
+# we have 50 webpages and probability of landing to each one is 1/50
+#(defaultProbability)
+dp = Fraction(1,50)
+# penalty
+beta = 0.7
 maxerr = .0001
 hlm = np.loadtxt(open("./hyperlinkMatrix.csv", "rb"), delimiter=",")
 A = np.matrix(hlm)
-rsums = np.array(A.sum(1))[:,0]
-n = A.shape[0]
-# bool array of sink states
-sink = rsums==0
-# Compute pagerank r until we converge
-ro, r = np.zeros(n), np.ones(n)
-while np.sum(np.abs(r-ro)) > maxerr:
-    ro = r.copy()
-    # calculate each pagerank at a time
-    for i in range(0,n):
-        # inlinks of state i
-        A_i = np.matrix(A[:,i].todense())[:,0]
-        # account for sink states
-        D_i = sink / float(n)
-        # account for teleportation to state i
-        Ei = np.ones(n) / float(n)
-        r[i] = ro.dot( Ai*s + Di*s + Ei*(1-s) )
+E = np.zeros(A.shape)
+E[:] = .02
+A = beta * A + ((1-beta) * E)
+r = np.zeros((A.shape[0],1))
 
-# return normalized pagerank
-print( r/float(sum(r)))
+r[:] = .02
+#r = r.T
+print(r.shape)
+prev_r = r
+
+for i in range(1,100):
+    print("iteration: \n",i)
+    r = np.dot(A, r)
+    #check if converged
+    if (prev_r==r).all():
+        break
+    prev_r = r
+
+print ("Final:\n", r)
+print ("sum", np.sum(r))
