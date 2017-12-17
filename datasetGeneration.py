@@ -43,6 +43,14 @@ def generate(n,volLimit):
             columnListUnweighted[fillPos] = 1
             volList[fillPos] = retRandom(0,volLimit)
 
+        #normalize the volList
+        volSum = 0.0
+        for j in range(len(volList)):
+            volSum = volSum + volList[j]
+
+        for j in range(len(volList)):
+            volList[j] = volList[j] / volSum
+
         columnList = np.array(columnList)
         columnList = np.transpose(columnList)
         columnList.shape = (1,columnList.shape[0])
@@ -68,6 +76,33 @@ def generate(n,volLimit):
     hyperlinkMatrixUnweighted = np.transpose(hyperlinkMatrixUnweighted)
     volMatrix = np.transpose(volMatrix)
 
+    #find number of inlinks and outlinks to each node
+    inlinkDict = {}
+    outlinkDict = {}
+    for i in range(n):
+        numOut = 0
+        for j in range(n):
+            numOut = numOut + hyperlinkMatrixUnweighted[j][i]
+        outlinkDict[i] = numOut
+
+    for i in range(n):
+        numIn = 0
+        for j in range(n):
+            numIn = numIn + hyperlinkMatrixUnweighted[i][j]
+        inlinkDict[i] = numIn
+
+    #compute both inlink weight as well as outlink weight
+    for i in range(n):
+        for j in range(n):
+            if hyperlinkMatrix[i][j] > 0:
+                sumOfInLinks = 0.0
+                for k in range(n):
+                    sumOfInLinks = sumOfInLinks + hyperlinkMatrixUnweighted[j][k]
+                sumOfOutLinks = 0.0
+                for k in range(n):
+                    sumOfOutLinks = sumOfOutLinks + hyperlinkMatrixUnweighted[k][j]
+
+                hyperlinkMatrix[i][j] = 1.0 * (inlinkDict[i]/sumOfInLinks) * (outlinkDict[i]/sumOfOutLinks)
     '''
     print(hyperlinkMatrix)
     print(hyperlinkMatrixUnweighted)
@@ -87,6 +122,7 @@ def generate(n,volLimit):
 
 
 
+
 if __name__ == '__main__':
-    n=50
+    n=5
     generate(n,200)
