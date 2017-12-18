@@ -13,7 +13,50 @@ dp = Fraction(1,50)
 beta = 0.7
 maxerr = .0001
 hlm = np.loadtxt(open("./hyperlinkMatrix.csv", "rb"), delimiter=",")
-A = np.matrix(hlm)
+vol = np.loadtxt(open("./volMatrix.csv", "rb"), delimiter=",")
+hlmu = np.loadtxt(open("./hyperlinkMatrixUnweighted.csv", "rb"), delimiter=",")
+
+
+print("1.PR")
+print("2.WPR")
+print("3.PR-VOL")
+print("4.WPR-VOL")
+
+choice = input("Choose an option:")
+
+A=None
+
+if choice == '1':
+    #load the unweighted matrix
+    A = np.matrix(hlmu)
+    pass
+elif choice == '2':
+    #load the wighted matrix
+    A = np.matrix(hlm)
+    pass
+elif choice == '3':
+    #load the unweighted matrix and squash in vol values
+    for i in range(hlmu.shape[0]):
+        for j in range(hlmu.shape[1]):
+            hlmu[i][j] = hlmu[i][j] * vol[i][j]
+    A = np.matrix(hlmu)
+
+    pass
+elif choice == '4':
+    # load the weighted matrix and squash in vol values
+    for i in range(hlm.shape[0]):
+        for j in range(hlm.shape[1]):
+            hlm[i][j] = hlm[i][j] * vol[i][j]
+    A = np.matrix(hlm)
+
+    pass
+else:
+    print("invalid choice. exiting in 5")
+    import time
+    time.sleep(5)
+    exit()
+
+
 E = np.zeros(A.shape)
 E[:] = .02
 #A = beta * A + ((1-beta) * E)
