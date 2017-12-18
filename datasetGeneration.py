@@ -100,6 +100,71 @@ def generate(n,volLimit):
     l[3][3] = 0
     '''
 
+    #manually putting in values for the toy example
+    '''
+    l = hyperlinkMatrixUnweighted
+    l[0][0] = 0
+    l[0][1] = 0
+    l[0][2] = 1
+    l[0][3] = 0
+    l[0][4] = 0
+
+    l[1][0] = 1
+    l[1][1] = 0
+    l[1][2] = 0
+    l[1][3] = 0
+    l[1][4] = 0
+
+    l[2][0] = 1
+    l[2][1] = 1
+    l[2][2] = 0
+    l[2][3] = 1
+    l[2][4] = 1
+
+    l[3][0] = 1
+    l[3][1] = 0
+    l[3][2] = 0
+    l[3][3] = 0
+    l[3][4] = 0
+
+    l[4][0] = 1
+    l[4][1] = 0
+    l[4][2] = 0
+    l[4][3] = 0
+    l[4][4] = 0
+
+    #change volMatrix according to hardcoded values for toy example
+    l = volMatrix
+    l[0][0] = 0
+    l[0][1] = 0
+    l[0][2] = 1
+    l[0][3] = 0
+    l[0][4] = 0
+
+    l[1][0] = 0.39
+    l[1][1] = 0
+    l[1][2] = 0
+    l[1][3] = 0
+    l[1][4] = 0
+
+    l[2][0] = 0.6
+    l[2][1] = 1
+    l[2][2] = 0
+    l[2][3] = 1
+    l[2][4] = 1
+
+    l[3][0] = 0.05
+    l[3][1] = 0
+    l[3][2] = 0
+    l[3][3] = 0
+    l[3][4] = 0
+
+    l[4][0] = 0.05
+    l[4][1] = 0
+    l[4][2] = 0
+    l[4][3] = 0
+    l[4][4] = 0
+    '''
     #find number of inlinks and outlinks to each node
     inlinkDict = {}
     outlinkDict = {}
